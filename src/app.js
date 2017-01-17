@@ -1,12 +1,18 @@
 import React from 'react';
-import ReactDom from 'react-dom';
-import Counter from './counter.js';
+import ReactDOM from 'react-dom';
 
-window.App = {
-  render:() => {
-    ReactDom.render(
-      <Counter />,
-      document.getElementById('root')
-    );
-  }
-};
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from 'material-ui/RaisedButton';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
+
+ReactDOM.render(
+  <div>
+    <h1>Hello, world</h1>
+    <MuiThemeProvider>
+      <RaisedButton label="Default" />
+    </MuiThemeProvider>
+  </div>,
+  document.getElementById('content')
+);
