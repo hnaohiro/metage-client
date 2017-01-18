@@ -1,38 +1,34 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import RaisedButton from 'material-ui/RaisedButton'
-import Header from '../components/Header'
-import * as CounterActions from '../actions/counter'
-
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import Theme from '../theme'
 
 class App extends Component {
+  static get childContextTypes() {
+    return { muiTheme: PropTypes.object.isRequired }
+  }
+
+  getChildContext() {
+    return { muiTheme: getMuiTheme(Theme) }
+  }
+
   render() {
-    const { value, actions } = this.props;
+    const { value, actions } = this.props
     return (
       <div>
-        <Header />
-        <h2>count={value}</h2>
-        <RaisedButton label="INC" onClick={actions.increment} />
-        <RaisedButton label="DEC" onClick={actions.decrement} />
+        {this.props.children}
       </div>
     )
   }
 }
 
-App.propTypes = {
-  value: PropTypes.number.isRequired,
-  actions: PropTypes.object.isRequired
-}
-
 function mapStateToProps(state) {
-  return state.counter
+  return {}
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(CounterActions, dispatch)
-  }
+  return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
