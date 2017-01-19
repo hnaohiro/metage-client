@@ -10,7 +10,54 @@ import routes from './routes'
 
 injectTapEventPlugin()
 
-let state = { counter: { value: 10 } }
+let state = {
+  metage: {
+    segments: [
+      {
+        id: 1,
+        name: 'John Smith',
+        domains: [
+          'hogehoge.com', 'hogehoge.com', 'hogehoge.com', 'hogehoge.com',
+          'hogehoge.com', 'hogehoge.com', 'hogehoge.com', 'hogehoge.com',
+          'hogehoge.com', 'hogehoge.com', 'hogehoge.com', 'hogehoge.com',
+          'hogehoge.com', 'hogehoge.com', 'hogehoge.com', 'hogehoge.com',
+          'hogehoge.com', 'hogehoge.com', 'hogehoge.com', 'hogehoge.com',
+        ],
+      },
+      {
+        id: 2,
+        name: 'Randal White',
+        domains: ['hogehoge.com'],
+      },
+      {
+        id: 3,
+        name: 'Stephanie Sanders',
+        domains: ['hogehoge.com'],
+      },
+      {
+        id: 4,
+        name: 'Steve Brown',
+        domains: ['hogehoge.com'],
+      },
+      {
+        id: 5,
+        name: 'Joyce Whitten',
+        domains: ['hogehoge.com'],
+      },
+      {
+        id: 6,
+        name: 'Samuel Roberts',
+        domains: ['hogehoge.com'],
+      },
+      {
+        id: 7,
+        name: 'Adam Moore',
+        domains: ['hogehoge.com'],
+      },
+    ]
+  }
+}
+
 const store = configureStore(browserHistory, state)
 const history = syncHistoryWithStore(browserHistory, store)
 

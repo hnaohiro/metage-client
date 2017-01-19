@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import Header from '../components/Header'
-import CounterContent from '../components/Counter'
-import * as CounterActions from '../actions/counter'
+import Header from '../../components/Header'
+import Content from '../../components/Content'
+import * as CounterActions from '../../actions/counter'
 
-class Counter extends Component {
+class MetageForm extends Component {
 
   static PropTypes = {
     value: PropTypes.number.isRequired,
@@ -17,8 +17,10 @@ class Counter extends Component {
     const { value, actions } = this.props
     return (
       <div>
-        <Header />
-        <CounterContent value={value} actions={actions} />
+        <Header title="metage" />
+        <Content>
+          <p>form</p>
+        </Content>
       </div>
     );
   }
@@ -33,4 +35,4 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(CounterActions, dispatch)
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Counter)
+export default connect(mapStateToProps, mapDispatchToProps)(MetageForm)
