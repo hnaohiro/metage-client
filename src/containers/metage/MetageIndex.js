@@ -12,12 +12,6 @@ import Header from '../../components/Header'
 import Content from '../../components/Content'
 import * as MetageActions from '../../actions/metage'
 
-const styles = {
-  rowButton: {
-    padding: '0 6px'
-  }
-}
-
 class MetageIndex extends Component {
 
   static PropTypes = {
@@ -34,8 +28,9 @@ class MetageIndex extends Component {
             <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
               <TableRow>
                 <TableHeaderColumn>ID</TableHeaderColumn>
-                <TableHeaderColumn>Name</TableHeaderColumn>
-                <TableHeaderColumn>Domain</TableHeaderColumn>
+                <TableHeaderColumn>Segment</TableHeaderColumn>
+                <TableHeaderColumn>Domains</TableHeaderColumn>
+                <TableHeaderColumn></TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false} showRowHover={true}>
@@ -49,11 +44,15 @@ class MetageIndex extends Component {
 
   renderRow(row, index) {
     return (
-      <TableRow hoverable={true} key={index}>
+      <TableRow key={index} hoverable={true}>
         <TableRowColumn>{row.id}</TableRowColumn>
         <TableRowColumn>{row.name}</TableRowColumn>
-        <TableRowColumn style={styles.rowButton}>
-          <FlatButton label="Domain" primary={true} onTouchTap={() => this.props.actions.openDomainDialog(index)} />
+        <TableRowColumn>{row.domains.length}</TableRowColumn>
+        <TableRowColumn>
+          <FlatButton
+            label="Show"
+            primary={true}
+            onTouchTap={() => this.props.actions.openIndexDialog(index)} />
           {this.renderDialog(index)}
         </TableRowColumn>
       </TableRow>
@@ -65,13 +64,9 @@ class MetageIndex extends Component {
       <FlatButton
         label="Close"
         primary={true}
-        onTouchTap={() => this.props.actions.closeDomainDialog()}
+        onTouchTap={() => this.props.actions.closeIndexDialog()}
       />
     ]
-
-    const domains = this.props.segments[index].domains.map((domain, i) =>
-      <p key={i}>{domain}</p>
-    )
 
     return (
       <Dialog
@@ -79,10 +74,12 @@ class MetageIndex extends Component {
         actions={actions}
         modal={false}
         open={this.props.segments[index].open || false}
-        onRequestClose={() => this.props.actions.closeDomainDialog()}
+        onRequestClose={() => this.props.actions.closeIndexDialog()}
         autoScrollBodyContent={true}
       >
-        {domains}
+        {this.props.segments[index].domains.map((domain, i) =>
+          <p key={i}>{domain}</p>
+        )}
       </Dialog>
     )
   }

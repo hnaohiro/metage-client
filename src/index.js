@@ -17,11 +17,10 @@ let state = {
         id: 1,
         name: 'John Smith',
         domains: [
-          'hogehoge.com', 'hogehoge.com', 'hogehoge.com', 'hogehoge.com',
-          'hogehoge.com', 'hogehoge.com', 'hogehoge.com', 'hogehoge.com',
-          'hogehoge.com', 'hogehoge.com', 'hogehoge.com', 'hogehoge.com',
-          'hogehoge.com', 'hogehoge.com', 'hogehoge.com', 'hogehoge.com',
-          'hogehoge.com', 'hogehoge.com', 'hogehoge.com', 'hogehoge.com',
+          'hogehoge1.com', 'hogehoge2.com', 'hogehoge3.com', 'hogehoge4.com',
+          'hogehoge5.com', 'hogehoge6.com', 'hogehoge7.com', 'hogehoge8.com',
+          'hogehoge9.com', 'hogehogeA.com', 'hogehogeB.com', 'hogehogeC.com',
+          'hogehogeD.com', 'hogehogeE.com', 'hogehogeF.com'
         ],
       },
       {
@@ -54,7 +53,16 @@ let state = {
         name: 'Adam Moore',
         domains: ['hogehoge.com'],
       },
-    ]
+    ],
+    form: {
+      text: 'interested_in_hoge',
+      domains: [
+        'hogehoge1.com', 'hogehoge2.com', 'hogehoge3.com', 'hogehoge4.com',
+        'hogehoge5.com', 'hogehoge6.com', 'hogehoge7.com', 'hogehoge8.com',
+        'hogehoge9.com', 'hogehogeA.com', 'hogehogeB.com', 'hogehogeC.com',
+        'hogehogeD.com', 'hogehogeE.com', 'hogehogeF.com'
+      ]
+    }
   }
 }
 
