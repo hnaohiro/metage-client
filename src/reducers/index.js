@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
-import metage from './metage'
+import metageIndex from './metage/index'
+import metageForm from './metage/form'
 
-const rootReducer = combineReducers({
-  metage,
+export default combineReducers({
+  metageIndex,
+  metageForm,
   routing: routerReducer
 })
-
-export default rootReducer

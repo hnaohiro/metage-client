@@ -14,14 +14,9 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 
 import Header from '../../components/Header'
 import Content from '../../components/Content'
-import * as MetageActions from '../../actions/metage'
+import * as Actions from '../../actions/metage/form'
 
 class MetageForm extends Component {
-
-  static PropTypes = {
-    form: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
-  }
 
   render() {
     return (
@@ -31,7 +26,7 @@ class MetageForm extends Component {
         <Content>
           <Table>
             <TableBody displayRowCheckbox={false} showRowHover={true}>
-              {this.props.form.domains.map((row, index) =>
+              {this.props.entities.segment.domains.map((row, index) =>
                 <TableRow key={index} hoverable={true}>
                   <TableRowColumn>{row}</TableRowColumn>
                 </TableRow>
@@ -44,7 +39,7 @@ class MetageForm extends Component {
   }
 
   renderToolBar() {
-    const text = `${(this.props.form.domains || []).length} domains`
+    const text = `${(this.props.entities.segment.domains || []).length} domains`
 
     return (
       <Toolbar>
@@ -76,13 +71,14 @@ class MetageForm extends Component {
     return (
       <div>
         <Dialog
-          title="Input a keyword"
+          title="Add Domain"
           actions={actions}
           modal={false}
-          open={this.props.form.open || false}
+          open={this.props.ui.open || false}
           autoScrollBodyContent={true}
           onRequestClose={() => this.props.actions.closeFormDialog()}
         >
+          <p>Input a keyword</p>
           <TextField hintText="keyword" />
         </Dialog>
       </div>
@@ -91,7 +87,7 @@ class MetageForm extends Component {
 }
 
 function mapStateToProps(state) {
-  return state.metage
+  return state.metageForm
 }
 
 function mapDispatchToProps(dispatch) {

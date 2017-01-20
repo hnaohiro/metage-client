@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import { AppBar } from 'material-ui'
 
-class Header extends Component {
+export default class Header extends Component {
   static PropTypes = {
     title: PropTypes.string.isRequired
   }
@@ -16,5 +16,3 @@ class Header extends Component {
     )
   }
 }
-
-export default Header

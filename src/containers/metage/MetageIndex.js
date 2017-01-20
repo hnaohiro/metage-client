@@ -10,14 +10,9 @@ import Dialog from 'material-ui/Dialog'
 
 import Header from '../../components/Header'
 import Content from '../../components/Content'
-import * as MetageActions from '../../actions/metage'
+import * as Actions from '../../actions/metage/index'
 
 class MetageIndex extends Component {
-
-  static PropTypes = {
-    segments: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
-  }
 
   render() {
     return (
@@ -34,7 +29,7 @@ class MetageIndex extends Component {
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false} showRowHover={true}>
-              {this.props.segments.map((row, index) => this.renderRow(row, index))}
+              {this.props.entities.segments.map((row, index) => this.renderRow(row, index))}
             </TableBody>
           </Table>
         </Content>
@@ -52,7 +47,7 @@ class MetageIndex extends Component {
           <FlatButton
             label="Show"
             primary={true}
-            onTouchTap={() => this.props.actions.openIndexDialog(index)} />
+            onTouchTap={() => this.props.actions.openDialog(index)} />
           {this.renderDialog(index)}
         </TableRowColumn>
       </TableRow>
@@ -64,20 +59,20 @@ class MetageIndex extends Component {
       <FlatButton
         label="Close"
         primary={true}
-        onTouchTap={() => this.props.actions.closeIndexDialog()}
+        onTouchTap={() => this.props.actions.closeDialog()}
       />
     ]
 
     return (
       <Dialog
-        title={this.props.segments[index].name}
+        title={this.props.entities.segments[index].name}
         actions={actions}
         modal={false}
-        open={this.props.segments[index].open || false}
-        onRequestClose={() => this.props.actions.closeIndexDialog()}
+        open={this.props.ui.open == index}
+        onRequestClose={() => this.props.actions.closeDialog()}
         autoScrollBodyContent={true}
       >
-        {this.props.segments[index].domains.map((domain, i) =>
+        {this.props.entities.segments[index].domains.map((domain, i) =>
           <p key={i}>{domain}</p>
         )}
       </Dialog>
@@ -86,12 +81,12 @@ class MetageIndex extends Component {
 }
 
 function mapStateToProps(state) {
-  return state.metage
+  return state.metageIndex
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MetageActions, dispatch)
+    actions: bindActionCreators(Actions, dispatch)
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MetageIndex)

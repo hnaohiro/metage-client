@@ -5,7 +5,7 @@ const styles = {
   padding: '10px 20px'
 }
 
-class Content extends Component {
+export default class Content extends Component {
   render() {
     return (
       <div style={styles}>
@@ -14,5 +14,3 @@ class Content extends Component {
     )
   }
 }
-
-export default Content
