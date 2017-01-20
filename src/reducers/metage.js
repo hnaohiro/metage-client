@@ -1,4 +1,4 @@
-import { INCREMENT, DECREMENT } from '../constants/ActionTypes'
+import { OPEN_DOMAIN_DIALOG, CLOSE_DOMAIN_DIALOG } from '../constants/ActionTypes'
 
 const initialState = {
   segments: []
@@ -6,10 +6,18 @@ const initialState = {
 
 export default function metage(state = initialState, action) {
   switch (action.type) {
-    case 'INCREMENT':
-      return { value: state.value + 1 }
-    case 'DECREMENT':
-      return { value: state.value - 1 }
+    case OPEN_DOMAIN_DIALOG:
+      return {
+        segments: state.segments.map((segment, i) =>
+          Object.assign(segment, { open: i == action.index })
+        )
+      }
+    case CLOSE_DOMAIN_DIALOG:
+      return {
+        segments: state.segments.map((segment) =>
+          Object.assign(segment, { open: false })
+        )
+      }
     default:
       return state
   }

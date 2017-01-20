@@ -10,7 +10,7 @@ import Dialog from 'material-ui/Dialog'
 
 import Header from '../../components/Header'
 import Content from '../../components/Content'
-import * as CounterActions from '../../actions/counter'
+import * as MetageActions from '../../actions/metage'
 
 const styles = {
   rowButton: {
@@ -23,13 +23,6 @@ class MetageIndex extends Component {
   static PropTypes = {
     segments: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      open: this.props.segments.map(() => false)
-    }
   }
 
   render() {
@@ -60,7 +53,7 @@ class MetageIndex extends Component {
         <TableRowColumn>{row.id}</TableRowColumn>
         <TableRowColumn>{row.name}</TableRowColumn>
         <TableRowColumn style={styles.rowButton}>
-          <FlatButton label="Domain" primary={true} onTouchTap={() => this.handleOpen(index)} />
+          <FlatButton label="Domain" primary={true} onTouchTap={() => this.props.actions.openDomainDialog(index)} />
           {this.renderDialog(index)}
         </TableRowColumn>
       </TableRow>
@@ -72,7 +65,7 @@ class MetageIndex extends Component {
       <FlatButton
         label="Close"
         primary={true}
-        onTouchTap={() => this.handleClose()}
+        onTouchTap={() => this.props.actions.closeDomainDialog()}
       />
     ]
 
@@ -85,23 +78,13 @@ class MetageIndex extends Component {
         title={this.props.segments[index].name}
         actions={actions}
         modal={false}
-        open={this.state.open[index]}
-        onRequestClose={() => this.handleClose()}
+        open={this.props.segments[index].open || false}
+        onRequestClose={() => this.props.actions.closeDomainDialog()}
         autoScrollBodyContent={true}
       >
         {domains}
       </Dialog>
     )
-  }
-
-  handleOpen(index) {
-    const newState = this.state.open.map((v, i) => i == index)
-    this.setState({ open: newState })
-  }
-
-  handleClose() {
-    const newState = this.state.open.map(() => false)
-    this.setState({ open: newState })
   }
 }
 
@@ -111,7 +94,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(CounterActions, dispatch)
+    actions: bindActionCreators(MetageActions, dispatch)
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MetageIndex)

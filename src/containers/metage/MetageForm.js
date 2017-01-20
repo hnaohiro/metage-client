@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import Header from '../../components/Header'
 import Content from '../../components/Content'
-import * as CounterActions from '../../actions/counter'
+import * as MetageActions from '../../actions/metage'
 
 class MetageForm extends Component {
 
@@ -32,7 +32,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(CounterActions, dispatch)
+    actions: bindActionCreators(MetageActions, dispatch)
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MetageForm)
