@@ -26,7 +26,7 @@ class MetageForm extends Component {
         <Content>
           <Table>
             <TableBody displayRowCheckbox={false} showRowHover={true}>
-              {this.props.entities.segment.domains.map((row, index) =>
+              {this.props.form.domains.map((row, index) =>
                 <TableRow key={index} hoverable={true}>
                   <TableRowColumn>{row}</TableRowColumn>
                 </TableRow>
@@ -39,7 +39,7 @@ class MetageForm extends Component {
   }
 
   renderToolBar() {
-    const text = `${(this.props.entities.segment.domains || []).length} domains`
+    const text = `${(this.props.form.domains || []).length} domains`
 
     return (
       <Toolbar>
@@ -50,7 +50,7 @@ class MetageForm extends Component {
           <FlatButton
             label="Add Domain"
             primary={true}
-            onTouchTap={() => this.props.actions.openFormDialog()} />
+            onTouchTap={() => this.props.actions.openDialog()} />
           {this.renderDialog()}
           <ToolbarSeparator />
           <FlatButton label="Save" primary={true} />
@@ -64,7 +64,8 @@ class MetageForm extends Component {
       <FlatButton
         label="Ok"
         primary={true}
-        onTouchTap={() => this.props.actions.closeFormDialog()}
+        disabled={this.props.ui.keyword == ''}
+        onTouchTap={() => this.props.actions.requestDomains()}
       />,
     ]
 
@@ -76,10 +77,14 @@ class MetageForm extends Component {
           modal={false}
           open={this.props.ui.open || false}
           autoScrollBodyContent={true}
-          onRequestClose={() => this.props.actions.closeFormDialog()}
+          onRequestClose={() => this.props.actions.closeDialog()}
         >
           <p>Input a keyword</p>
-          <TextField hintText="keyword" />
+          <TextField
+            hintText="keyword"
+            defaultValue={this.props.ui.keyword}
+            onChange={(e, value) => this.props.actions.changeKeyword(value)}
+          />
         </Dialog>
       </div>
     )
@@ -92,7 +97,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MetageActions, dispatch)
+    actions: bindActionCreators(Actions, dispatch)
   }
 }
 
