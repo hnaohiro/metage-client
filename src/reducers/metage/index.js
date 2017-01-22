@@ -53,7 +53,6 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case OPEN_DIALOG:
-      console.log(action.index)
       return {
         ...state,
         ui: Object.assign({}, state.ui, { open: action.index })

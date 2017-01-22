@@ -1,13 +1,23 @@
 import axios from 'axios'
 
-export const OPEN_DIALOG = 'OPEN_METAGE_FORM_DIALOG'
+export const OPEN_DIALOG = 'OPEN_DIALOG'
 export function openDialog() {
   return { type: OPEN_DIALOG }
 }
 
-export const CLOSE_DIALOG = 'CLOSE_METAGE_FORM_DIALOG'
+export const CLOSE_DIALOG = 'CLOSE_DIALOG'
 export function closeDialog() {
   return { type: CLOSE_DIALOG }
+}
+
+export const OPEN_SAVE_DIALOG = 'OPEN_SAVE_DIALOG'
+export function openSaveDialog() {
+  return { type: OPEN_SAVE_DIALOG }
+}
+
+export const CLOSE_SAVE_DIALOG = 'CLOSE_SAVE_DIALOG'
+export function closeSaveDialog() {
+  return { type: CLOSE_SAVE_DIALOG }
 }
 
 export const CHANGE_KEYWORD = 'CHANGE_KEYWORD'
@@ -15,34 +25,59 @@ export function changeKeyword(keyword) {
   return { type: CHANGE_KEYWORD, keyword: keyword }
 }
 
-export const START_REQUEST_DOMAINS = 'START_REQUEST_DOMAINS'
-export function startRequestDomains() {
-  return { type: START_REQUEST_DOMAINS }
+export const CHANGE_NAME = 'CHANGE_NAME'
+export function changeName(name) {
+  return { type: CHANGE_NAME, name: name }
 }
 
-export const SUCCESS_REQUEST_DOMAINS = 'SUCCESS_REQUEST_DOMAINS'
-export function successRequestDomains(domains) {
-  return { type: SUCCESS_REQUEST_DOMAINS, domains: domains }
+export const START_CONNECTION = 'START_CONNECTION'
+export function startConnection() {
+  return { type: START_CONNECTION }
 }
 
-export function requestDomains(state) {
-  const post = (dispatch, state) => {
-    dispatch(startRequestDomains())
+export const RECEIVE_DOMAINS = 'RECEIVE_DOMAINS'
+export function receiveDomains(domains) {
+  return { type: RECEIVE_DOMAINS, domains: domains }
+}
 
-    const url = `http://localhost:4567/domains/${state.ui.keyword}`
-    return axios.get(url)
-      .then((response) => {
-        dispatch(successRequestDomains(response.data))
-      })
-      .catch((error) => console.log(error))
-  }
+export const RECEIVE_METAGE_RESPONSE = 'RECEIVE_METAGE_RESPONSE'
+export function receiveMetageResponse(result) {
+  console.log(result)
+  return { type: RECEIVE_METAGE_RESPONSE, result: result }
+}
 
+export function fetchDomains() {
   return (dispatch, getState) => {
     const state = getState().metageForm
+
     if (state.request.waiting) {
       return Promise.resolve()
-    } else {
-      return post(dispatch, state)
     }
+
+    dispatch(startConnection())
+
+    return axios.get(`http://localhost:4567/domains/${state.ui.keyword}`)
+      .then((response) => {
+        dispatch(receiveDomains(response.data.domains))
+      })
+      .catch((error) => alert(error))
+  }
+}
+
+export function postSegment() {
+  return (dispatch, getState) => {
+    const state = getState().metageForm
+
+    if (state.request.waiting) {
+      return Promise.resolve()
+    }
+
+    dispatch(startConnection())
+
+    return axios.post(`http://localhost:4567/metage`, state.form)
+      .then((response) => {
+        dispatch(receiveMetageResponse(response.data.result))
+      })
+      .catch((error) => alert(error))
   }
 }

@@ -39,7 +39,10 @@ class MetageForm extends Component {
   }
 
   renderToolBar() {
-    const text = `${(this.props.form.domains || []).length} domains`
+    const domains = this.props.form.domains || []
+    const text = (this.props.form.name) ?
+      `${this.props.form.name} - ${domains.length} domains` :
+      `${domains.length} domains`
 
     return (
       <Toolbar>
@@ -53,7 +56,11 @@ class MetageForm extends Component {
             onTouchTap={() => this.props.actions.openDialog()} />
           {this.renderDialog()}
           <ToolbarSeparator />
-          <FlatButton label="Save" primary={true} />
+          <FlatButton
+            label="Save"
+            primary={true}
+            onTouchTap={() => this.props.actions.openSaveDialog()} />
+          {this.renderSaveDialog()}
         </ToolbarGroup>
       </Toolbar>
     )
@@ -62,11 +69,17 @@ class MetageForm extends Component {
   renderDialog() {
     const actions = [
       <FlatButton
+        label="Cancel"
+        primary={true}
+        disabled={this.props.request.waiting}
+        onTouchTap={() => this.props.actions.closeDialog()}
+      />,
+      <FlatButton
         label="Ok"
         primary={true}
-        disabled={this.props.ui.keyword == ''}
-        onTouchTap={() => this.props.actions.requestDomains()}
-      />,
+        disabled={this.props.request.waiting || this.props.ui.keyword == ''}
+        onTouchTap={() => this.props.actions.fetchDomains()}
+      />
     ]
 
     return (
@@ -75,8 +88,7 @@ class MetageForm extends Component {
           title="Add Domain"
           actions={actions}
           modal={false}
-          open={this.props.ui.open || false}
-          autoScrollBodyContent={true}
+          open={this.props.ui.open}
           onRequestClose={() => this.props.actions.closeDialog()}
         >
           <p>Input a keyword</p>
@@ -84,6 +96,42 @@ class MetageForm extends Component {
             hintText="keyword"
             defaultValue={this.props.ui.keyword}
             onChange={(e, value) => this.props.actions.changeKeyword(value)}
+          />
+        </Dialog>
+      </div>
+    )
+  }
+
+  renderSaveDialog() {
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        disabled={this.props.request.waiting}
+        onTouchTap={() => this.props.actions.closeSaveDialog()}
+      />,
+      <FlatButton
+        label="Ok"
+        primary={true}
+        disabled={this.props.request.waiting || (this.props.form.name == '')}
+        onTouchTap={() => this.props.actions.postSegment()}
+      />
+    ]
+
+    return (
+      <div>
+        <Dialog
+          title="Save"
+          actions={actions}
+          modal={false}
+          open={this.props.ui.openSaveDialog}
+          onRequestClose={() => this.props.actions.closeSaveDialog()}
+        >
+          <p>Input a name</p>
+          <TextField
+            hintText="name"
+            defaultValue={this.props.form.name}
+            onChange={(e, value) => this.props.actions.changeName(value)}
           />
         </Dialog>
       </div>

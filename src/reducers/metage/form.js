@@ -3,16 +3,12 @@ import * as actions from '../../actions/metage/form'
 
 const initialState = {
   form: {
-    name: 'interested_in_hoge',
-    domains: [
-      'hogehoge1.com', 'hogehoge2.com', 'hogehoge3.com', 'hogehoge4.com',
-      'hogehoge5.com', 'hogehoge6.com', 'hogehoge7.com', 'hogehoge8.com',
-      'hogehoge9.com', 'hogehogeA.com', 'hogehogeB.com', 'hogehogeC.com',
-      'hogehogeD.com', 'hogehogeE.com', 'hogehogeF.com'
-    ]
+    name: '',
+    domains: []
   },
   ui: {
     open: false,
+    openSaveDialog: false,
     keyword: ''
   },
   request: {
@@ -38,6 +34,22 @@ export default (state = initialState, action) => {
           open: false
         }
       }
+    case actions.OPEN_SAVE_DIALOG:
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          openSaveDialog: true
+        }
+      }
+    case actions.CLOSE_SAVE_DIALOG:
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          openSaveDialog: false
+        }
+      }
     case actions.CHANGE_KEYWORD:
       return {
         ...state,
@@ -46,12 +58,20 @@ export default (state = initialState, action) => {
           keyword: action.keyword
         }
       }
-    case actions.START_REQUEST_DOMAINS:
+    case actions.CHANGE_NAME:
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          name: action.name
+        }
+      }
+    case actions.START_CONNECTION:
       return {
         ...state,
         request: { waiting: true }
       }
-    case actions.SUCCESS_REQUEST_DOMAINS:
+    case actions.RECEIVE_DOMAINS:
       return {
         ...state,
         form: {
@@ -64,6 +84,26 @@ export default (state = initialState, action) => {
           keyword: ''
         },
         request: { waiting: false, }
+      }
+    case actions.RECEIVE_METAGE_RESPONSE:
+      if (action.result) {
+        alert('Done!')
+      } else {
+        alert('failed')
+        return
+      }
+
+      return {
+        ...state,
+        form: {
+          name: '',
+          domains: []
+        },
+        ui: {
+          ...state.ui,
+          openSaveDialog: false
+        },
+        request: { waiting: false }
       }
     default:
       return state
