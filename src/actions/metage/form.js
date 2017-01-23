@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const base_url = ''
+
 export const OPEN_DIALOG = 'OPEN_DIALOG'
 export function openDialog() {
   return { type: OPEN_DIALOG }
@@ -55,7 +57,7 @@ export function fetchDomains() {
 
     dispatch(startConnection())
 
-    return axios.get(`http://localhost:4567/domains/${state.ui.keyword}`)
+    return axios.get(`${base_url}/domains/${state.ui.keyword}`)
       .then((response) => {
         dispatch(receiveDomains(response.data.domains))
       })
@@ -73,7 +75,7 @@ export function postSegment() {
 
     dispatch(startConnection())
 
-    return axios.post(`http://localhost:4567/metage`, state.form)
+    return axios.post(`${base_url}/metage`, state.form)
       .then((response) => {
         dispatch(receiveMetageResponse(response.data.result))
       })
