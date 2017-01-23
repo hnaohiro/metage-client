@@ -10,7 +10,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider'
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
+import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
+import CircularProgress from 'material-ui/CircularProgress'
 
 import Header from '../../components/Header'
 import Content from '../../components/Content'
@@ -83,22 +84,34 @@ class MetageForm extends Component {
     ]
 
     return (
-      <div>
-        <Dialog
-          title="Add Domain"
-          actions={actions}
-          modal={false}
-          open={this.props.ui.open}
-          onRequestClose={() => this.props.actions.closeDialog()}
-        >
-          <p>Input a keyword</p>
-          <TextField
-            hintText="keyword"
-            defaultValue={this.props.ui.keyword}
-            onChange={(e, value) => this.props.actions.changeKeyword(value)}
-          />
-        </Dialog>
-      </div>
+      <Dialog
+        title="Add Domain"
+        actions={actions}
+        modal={true}
+        open={this.props.ui.open}
+        onRequestClose={() => this.props.actions.closeDialog()}
+      >
+        {(() => {
+          if (this.props.request.waiting) {
+            return (
+              <div>
+                <CircularProgress size={60} thickness={7} />
+              </div>
+            )
+          } else {
+            return (
+              <div>
+                <p>Input a keyword</p>
+                <TextField
+                  hintText="keyword"
+                  defaultValue={this.props.ui.keyword}
+                  onChange={(e, value) => this.props.actions.changeKeyword(value)}
+                />
+              </div>
+            )
+          }
+        })()}
+      </Dialog>
     )
   }
 
@@ -119,22 +132,34 @@ class MetageForm extends Component {
     ]
 
     return (
-      <div>
-        <Dialog
-          title="Save"
-          actions={actions}
-          modal={false}
-          open={this.props.ui.openSaveDialog}
-          onRequestClose={() => this.props.actions.closeSaveDialog()}
-        >
-          <p>Input a name</p>
-          <TextField
-            hintText="name"
-            defaultValue={this.props.form.name}
-            onChange={(e, value) => this.props.actions.changeName(value)}
-          />
-        </Dialog>
-      </div>
+      <Dialog
+        title="Save"
+        actions={actions}
+        modal={true}
+        open={this.props.ui.openSaveDialog}
+        onRequestClose={() => this.props.actions.closeSaveDialog()}
+      >
+        {(() => {
+          if (this.props.request.waiting) {
+            return (
+              <div>
+                <CircularProgress size={60} thickness={7} />
+              </div>
+            )
+          } else {
+            return (
+              <div>
+                <p>Input a name</p>
+                <TextField
+                  hintText="name"
+                  defaultValue={this.props.form.name}
+                  onChange={(e, value) => this.props.actions.changeName(value)}
+                />
+              </div>
+            )
+          }
+        })()}
+      </Dialog>
     )
   }
 }

@@ -41,9 +41,8 @@ export function receiveDomains(domains) {
 }
 
 export const RECEIVE_METAGE_RESPONSE = 'RECEIVE_METAGE_RESPONSE'
-export function receiveMetageResponse(result) {
-  console.log(result)
-  return { type: RECEIVE_METAGE_RESPONSE, result: result }
+export function receiveMetageResponse(result, error) {
+  return { type: RECEIVE_METAGE_RESPONSE, result: result, error: error }
 }
 
 export function fetchDomains() {
@@ -78,6 +77,6 @@ export function postSegment() {
       .then((response) => {
         dispatch(receiveMetageResponse(response.data.result))
       })
-      .catch((error) => alert(error))
+      .catch((error) => alert(receiveMetageResponse(response.data.result, error)))
   }
 }

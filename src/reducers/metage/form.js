@@ -86,24 +86,26 @@ export default (state = initialState, action) => {
         request: { waiting: false, }
       }
     case actions.RECEIVE_METAGE_RESPONSE:
-      if (action.result) {
-        alert('Done!')
+      if (action.error) {
+        alert(action.error)
+        return {
+          ...state,
+          request: { waiting: true }
+        }
       } else {
-        alert('failed')
-        return
-      }
-
-      return {
-        ...state,
-        form: {
-          name: '',
-          domains: []
-        },
-        ui: {
-          ...state.ui,
-          openSaveDialog: false
-        },
-        request: { waiting: false }
+        alert('Done!')
+        return {
+          ...state,
+          form: {
+            name: '',
+            domains: []
+          },
+          ui: {
+            ...state.ui,
+            openSaveDialog: false
+          },
+          request: { waiting: false }
+        }
       }
     default:
       return state
